@@ -3,323 +3,319 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Management System 3.0</title>
+<title>Student Management System 3.1</title>
 
-<!-- PDF Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 :root {
-  --navy: #101b3d;
-  --blue: #315efb;
-  --cyan: #16b8c8;
-  --bg: #f4f7fc;
-  --ink: #18233f;
-  --muted: #71809c;
-  --line: #e7ecf5;
+  --navy:#101b3d;
+  --blue:#315efb;
+  --cyan:#16b8c8;
+  --bg:#f4f7fc;
+  --ink:#18233f;
+  --muted:#71809c;
+  --line:#e7ecf5;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing:border-box; }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--ink);
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
 }
 
 header {
-  background: linear-gradient(120deg,#101b3d,#203d80);
-  color: white;
-  padding: 28px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
+  background:linear-gradient(120deg,#101b3d,#203d80);
+  color:white;
+  padding:28px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:15px;
 }
 
-header h1 { margin: 0; }
-header p { color: #cbd7f5; }
+header h1 { margin:0; }
+header p { color:#cbd7f5; }
 
 .badge {
-  background: #ffffff20;
-  padding: 10px 15px;
-  border-radius: 25px;
+  background:#ffffff20;
+  padding:10px 15px;
+  border-radius:25px;
 }
 
 main {
-  max-width: 1180px;
-  margin: 28px auto;
-  padding: 0 18px;
+  max-width:1180px;
+  margin:28px auto;
+  padding:0 18px;
 }
 
 .stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
-  gap: 16px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:16px;
 }
 
 .card,.panel {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  box-shadow: 0 8px 25px #1b2c5010;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:0 8px 25px #1b2c5010;
 }
 
-.stat { padding: 20px; }
-.stat span { color: var(--muted); }
+.stat { padding:20px; }
+.stat span { color:var(--muted); }
 
 .stat strong {
-  display: block;
-  font-size: 30px;
-  margin-top: 8px;
-  color: var(--blue);
+  display:block;
+  font-size:30px;
+  margin-top:8px;
+  color:var(--blue);
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: minmax(280px,.85fr) minmax(0,1.5fr);
-  gap: 18px;
-  margin-top: 20px;
+  display:grid;
+  grid-template-columns:minmax(280px,.85fr) minmax(0,1.5fr);
+  gap:18px;
+  margin-top:20px;
 }
 
-.panel { padding: 22px; }
-.panel h2 { margin-top: 0; }
+.panel { padding:22px; }
+.panel h2 { margin-top:0; }
 
 label {
-  display: block;
-  margin: 12px 0 6px;
-  font-size: 13px;
-  font-weight: bold;
-  color: #53617c;
+  display:block;
+  margin:12px 0 6px;
+  font-size:13px;
+  font-weight:bold;
+  color:#53617c;
 }
 
 input {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #dce3ef;
-  border-radius: 9px;
-  font-size: 14px;
+  width:100%;
+  padding:11px;
+  border:1px solid #dce3ef;
+  border-radius:9px;
+  font-size:14px;
 }
 
-input:focus {
-  outline: 2px solid #c9d5ff;
-}
+input:focus { outline:2px solid #c9d5ff; }
 
 .row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
 .hint {
-  font-size: 12px;
-  color: var(--muted);
+  font-size:12px;
+  color:var(--muted);
 }
 
 button {
-  border: 0;
-  border-radius: 9px;
-  padding: 11px 15px;
-  font-weight: bold;
-  cursor: pointer;
-  background: var(--blue);
-  color: white;
+  border:0;
+  border-radius:9px;
+  padding:11px 15px;
+  font-weight:bold;
+  cursor:pointer;
+  background:var(--blue);
+  color:white;
 }
 
-button:hover { opacity: .9; }
+button:hover { opacity:.9; }
 
 .secondary {
-  background: #eaf0ff;
-  color: #2548bd;
+  background:#eaf0ff;
+  color:#2548bd;
 }
 
 .danger {
-  background: #fff0f0;
-  color: #c03939;
+  background:#fff0f0;
+  color:#c03939;
 }
 
 .full {
-  width: 100%;
-  margin-top: 15px;
+  width:100%;
+  margin-top:15px;
 }
 
 .toolbar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
+  display:flex;
+  gap:10px;
+  margin-bottom:12px;
 }
 
-.toolbar input { flex: 1; }
+.toolbar input { flex:1; }
 
-.tablewrap { overflow-x: auto; }
+.tablewrap { overflow-x:auto; }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 570px;
+  width:100%;
+  border-collapse:collapse;
+  min-width:570px;
 }
 
 th,td {
-  text-align: left;
-  padding: 12px 10px;
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
+  text-align:left;
+  padding:12px 10px;
+  border-bottom:1px solid var(--line);
+  font-size:13px;
 }
 
 th {
-  color: #75819a;
-  text-transform: uppercase;
+  color:#75819a;
+  text-transform:uppercase;
 }
 
 .avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  vertical-align: middle;
-  margin-right: 9px;
-  background: #e9efff;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  object-fit:cover;
+  vertical-align:middle;
+  margin-right:9px;
+  background:#e9efff;
 }
 
 .muted {
-  color: var(--muted);
-  font-size: 13px;
+  color:var(--muted);
+  font-size:13px;
 }
 
 .empty {
-  color: var(--muted);
-  text-align: center;
-  padding: 28px;
+  color:var(--muted);
+  text-align:center;
+  padding:28px;
 }
 
 .actions {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
 }
 
 .profile {
-  margin-top: 20px;
-  display: none;
+  margin-top:20px;
+  display:none;
 }
 
 .profile-top {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
 }
 
 .profile-photo {
-  width: 76px;
-  height: 76px;
-  border-radius: 18px;
-  object-fit: cover;
-  background: #e9efff;
+  width:76px;
+  height:76px;
+  border-radius:18px;
+  object-fit:cover;
+  background:#e9efff;
 }
 
-.profile-top h2 { margin: 0 0 5px; }
+.profile-top h2 { margin:0 0 5px; }
 
 .charts {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 18px;
-  margin-top: 20px;
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:18px;
+  margin-top:20px;
 }
 
 .chartbox {
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  padding: 16px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:16px;
 }
 
-.chartbox h3 { font-size: 15px; }
+.chartbox h3 { font-size:15px; }
 
 .bars {
-  height: 190px;
-  display: flex;
-  align-items: end;
-  justify-content: space-around;
-  gap: 15px;
-  padding: 12px 8px 0;
-  border-bottom: 1px solid var(--line);
+  height:190px;
+  display:flex;
+  align-items:end;
+  justify-content:space-around;
+  gap:15px;
+  padding:12px 8px 0;
+  border-bottom:1px solid var(--line);
 }
 
 .barcol {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: center;
-  gap: 7px;
-  flex: 1;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:end;
+  align-items:center;
+  gap:7px;
+  flex:1;
 }
 
 .bar {
-  width: min(48px,75%);
-  min-height: 3px;
-  border-radius: 8px 8px 0 0;
-  background: linear-gradient(180deg,#18bfd0,#315efb);
+  width:min(48px,75%);
+  min-height:3px;
+  border-radius:8px 8px 0 0;
+  background:linear-gradient(180deg,#18bfd0,#315efb);
 }
 
-.barval { font-size: 12px; color: #52617d; }
-.barlabel { font-size: 12px; color: var(--muted); }
+.barval { font-size:12px; color:#52617d; }
+.barlabel { font-size:12px; color:var(--muted); }
 
 .donut-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  min-height: 180px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+  min-height:180px;
 }
 
 .donut {
-  width: 135px;
-  height: 135px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: conic-gradient(var(--cyan) 0deg,#e9eef7 0deg);
-  position: relative;
+  width:135px;
+  height:135px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  position:relative;
 }
 
 .donut:before {
-  content: "";
-  position: absolute;
-  width: 93px;
-  height: 93px;
-  border-radius: 50%;
-  background: white;
+  content:"";
+  position:absolute;
+  width:93px;
+  height:93px;
+  border-radius:50%;
+  background:white;
 }
 
 .donut b {
-  z-index: 1;
-  font-size: 21px;
+  z-index:1;
+  font-size:21px;
 }
 
 .legend {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 2;
+  font-size:12px;
+  color:var(--muted);
+  line-height:2;
 }
 
 footer {
-  text-align: center;
-  color: var(--muted);
-  font-size: 12px;
-  padding: 28px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  padding:28px;
 }
 
 @media(max-width:800px) {
-  .grid,.charts { grid-template-columns: 1fr; }
+  .grid,.charts { grid-template-columns:1fr; }
 }
 
 @media(max-width:480px) {
-  .panel { padding: 16px; }
-  .row { grid-template-columns: 1fr; }
+  .panel { padding:16px; }
+  .row { grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -331,7 +327,7 @@ footer {
     <h1>Student Management System</h1>
     <p>Academic Records, Attendance & Performance Dashboard</p>
   </div>
-  <span class="badge">PPS Mini Project | Version 3.0</span>
+  <span class="badge">PPS Mini Project | Version 3.1</span>
 </header>
 
 <main>
@@ -375,7 +371,6 @@ footer {
     <input id="name" required placeholder="Enter student name">
 
     <div class="row">
-
       <div>
         <label>Subject 1 Marks / 100</label>
         <input id="m1" type="number" min="0" max="100" required>
@@ -385,14 +380,12 @@ footer {
         <label>Subject 2 Marks / 100</label>
         <input id="m2" type="number" min="0" max="100" required>
       </div>
-
     </div>
 
     <label>Subject 3 Marks / 100</label>
     <input id="m3" type="number" min="0" max="100" required>
 
     <div class="row">
-
       <div>
         <label>Total Working Days</label>
         <input id="working" type="number" min="1" required>
@@ -402,7 +395,6 @@ footer {
         <label>Days Attended</label>
         <input id="present" type="number" min="0" required>
       </div>
-
     </div>
 
     <button class="full" type="submit" id="submitBtn">
@@ -423,14 +415,12 @@ footer {
   <h2>Student Records</h2>
 
   <div class="toolbar">
-    <input id="search" placeholder="Search student">
-    <button class="secondary" id="clearSearch">Clear</button>
+    <input id="search" placeholder="Search by student name or roll number">
+    <button class="secondary" id="clearSearch" type="button">Clear</button>
   </div>
 
   <div class="tablewrap">
-
     <table>
-
       <thead>
         <tr>
           <th>Student</th>
@@ -443,9 +433,7 @@ footer {
       </thead>
 
       <tbody id="studentList"></tbody>
-
     </table>
-
   </div>
 
   <div id="empty" class="empty">
@@ -481,9 +469,7 @@ footer {
   <div class="charts">
 
     <div class="chartbox">
-
       <h3>Subject Marks Graph</h3>
-
       <div class="bars" id="marksBars"></div>
 
       <div style="display:flex;justify-content:space-around">
@@ -491,23 +477,18 @@ footer {
         <span class="barlabel">Subject 2</span>
         <span class="barlabel">Subject 3</span>
       </div>
-
     </div>
 
     <div class="chartbox">
-
       <h3>Attendance Graph</h3>
 
       <div class="donut-wrap">
-
         <div class="donut" id="attendanceDonut">
           <b id="attendanceText">0%</b>
         </div>
 
         <div class="legend" id="attendanceLegend"></div>
-
       </div>
-
     </div>
 
   </div>
@@ -517,71 +498,139 @@ footer {
 </main>
 
 <footer>
-  Student Management System | PPS Mini Project | Version 3.0
+  Student Management System | PPS Mini Project
 </footer>
 
 <script>
 
-const KEY = "students";
+// =================================
+// STORAGE AND DATA RECOVERY
+// =================================
 
-let students = JSON.parse(localStorage.getItem(KEY) || "[]");
-let editingRoll = null;
+const KEY = "students";
 
 const $ = id => document.getElementById(id);
 
+let editingRoll = null;
 
-// SAVE DATA
+function grade(p) {
+  if(p >= 90) return "A";
+  if(p >= 80) return "B";
+  if(p >= 70) return "C";
+  if(p >= 60) return "D";
+  return "F";
+}
+
+function numberValue(value, fallback = 0) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function normalizeStudent(s, index) {
+
+  const roll = String(
+    s.roll ?? s.rollNumber ?? s.Roll ?? `UNKNOWN-${index + 1}`
+  );
+
+  const name = String(
+    s.name ?? s.studentName ?? s.fullName ?? s.Name ?? `Student ${roll}`
+  );
+
+  const marks = Array.isArray(s.marks)
+    ? [0,1,2].map(i => {
+        const value = numberValue(s.marks[i]);
+        return Math.max(0,Math.min(100,value));
+      })
+    : [
+        numberValue(s.m1),
+        numberValue(s.m2),
+        numberValue(s.m3)
+      ];
+
+  const total = marks.reduce((a,b) => a+b,0);
+  const percentage = total / 3;
+
+  const working = Math.max(0,numberValue(s.working ?? s.totalWorkingDays));
+  const present = Math.max(0,Math.min(
+    working,
+    numberValue(s.present ?? s.daysAttended)
+  ));
+
+  const attendance = working > 0
+    ? present / working * 100
+    : 0;
+
+  return {
+    ...s,
+    roll,
+    name,
+    marks,
+    total,
+    percentage:Number(percentage.toFixed(2)),
+    grade:grade(percentage),
+    working,
+    present,
+    attendance:Number(attendance.toFixed(2)),
+    photo:s.photo || null
+  };
+}
+
+function loadStudents() {
+
+  try {
+
+    const data = JSON.parse(localStorage.getItem(KEY) || "[]");
+
+    if(!Array.isArray(data)) return [];
+
+    return data.map(normalizeStudent);
+
+  } catch(error) {
+
+    alert("Could not read saved student records.");
+    return [];
+
+  }
+}
+
+let students = loadStudents();
 
 function save() {
 
   try {
 
-    localStorage.setItem(KEY, JSON.stringify(students));
+    localStorage.setItem(KEY,JSON.stringify(students));
     return true;
 
-  } catch(e) {
+  } catch(error) {
 
-    alert("Storage is full. Try a smaller photo.");
+    alert("Storage is full. Try using smaller profile pictures.");
     return false;
 
   }
 
 }
 
-
-// GRADE CALCULATION
-
-function grade(p) {
-
-  if(p >= 90) return "A";
-  if(p >= 80) return "B";
-  if(p >= 70) return "C";
-  if(p >= 60) return "D";
-
-  return "F";
-
-}
+// Save normalized records without deleting existing records.
+save();
 
 
-// DEFAULT PROFILE PHOTO
+// =================================
+// PROFILE PHOTO
+// =================================
 
 function photoFor(s) {
 
   return s.photo || "data:image/svg+xml;charset=UTF-8," +
   encodeURIComponent(
-
     '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">' +
     '<rect width="100" height="100" rx="50" fill="#e9efff"/>' +
     '<circle cx="50" cy="38" r="19" fill="#8ba5e8"/>' +
     '<path d="M15 96c3-24 17-35 35-35s32 11 35 35" fill="#8ba5e8"/>' +
     '</svg>'
-
   );
 
 }
-
-
-// READ AND RESIZE IMAGE
 
 function readPhoto(file) {
 
@@ -612,8 +661,8 @@ function readPhoto(file) {
           320 / Math.max(img.width,img.height)
         );
 
-        canvas.width = Math.round(img.width * scale);
-        canvas.height = Math.round(img.height * scale);
+        canvas.width = Math.round(img.width*scale);
+        canvas.height = Math.round(img.height*scale);
 
         canvas.getContext("2d").drawImage(
           img,0,0,canvas.width,canvas.height
@@ -636,9 +685,11 @@ function readPhoto(file) {
 }
 
 
-// ADD OR UPDATE STUDENT
+// =================================
+// ADD AND UPDATE STUDENT
+// =================================
 
-$("studentForm").addEventListener("submit", async e => {
+$("studentForm").addEventListener("submit",async e => {
 
   e.preventDefault();
 
@@ -654,12 +705,16 @@ $("studentForm").addEventListener("submit", async e => {
   const working = Number($("working").value);
   const present = Number($("present").value);
 
-  if(!roll || !name ||
-     marks.some(v => !Number.isInteger(v) || v < 0 || v > 100)) {
-
-    alert("Enter valid details and marks between 0 and 100.");
+  if(!roll || !name) {
+    alert("Enter student name and roll number.");
     return;
+  }
 
+  if(marks.some(v =>
+    !Number.isInteger(v) || v < 0 || v > 100
+  )) {
+    alert("Marks must be between 0 and 100.");
+    return;
   }
 
   if(!Number.isInteger(working) || working < 1 ||
@@ -668,7 +723,6 @@ $("studentForm").addEventListener("submit", async e => {
 
     alert("Please enter valid attendance details.");
     return;
-
   }
 
   if(students.some(s =>
@@ -678,7 +732,6 @@ $("studentForm").addEventListener("submit", async e => {
 
     alert("Roll number already exists.");
     return;
-
   }
 
   const old = students.find(s => s.roll === editingRoll);
@@ -691,53 +744,53 @@ $("studentForm").addEventListener("submit", async e => {
       photo = await readPhoto($("photo").files[0]);
     }
 
-  } catch(err) {
+  } catch(error) {
 
-    alert(err.message);
+    alert(error.message);
     return;
 
   }
 
   const total = marks.reduce((a,b) => a+b,0);
-  const percentage = total / 3;
+  const percentage = total/3;
 
-  const student = {
-
+  const student = normalizeStudent({
     roll,
     name,
     marks,
     total,
-
-    percentage: Number(percentage.toFixed(2)),
-
-    grade: grade(percentage),
-
+    percentage,
+    grade:grade(percentage),
     working,
     present,
-
-    attendance: Number((present/working*100).toFixed(2)),
-
+    attendance:working ? present/working*100 : 0,
     photo
+  },0);
 
-  };
+  let updated;
 
   if(editingRoll) {
 
-    students = students.map(s =>
+    updated = students.map(s =>
       s.roll === editingRoll ? student : s
     );
 
   } else {
 
-    students.push(student);
+    updated = [...students,student];
 
   }
 
-  if(!save()) return;
+  const previous = students;
+  students = updated;
+
+  if(!save()) {
+    students = previous;
+    return;
+  }
 
   resetForm();
   render();
-
   openProfile(encodeURIComponent(roll));
 
   alert("Student saved successfully!");
@@ -745,7 +798,9 @@ $("studentForm").addEventListener("submit", async e => {
 });
 
 
-// RESET FORM
+// =================================
+// FORM RESET
+// =================================
 
 function resetForm() {
 
@@ -755,7 +810,6 @@ function resetForm() {
 
   $("formTitle").textContent = "Add a Student";
   $("submitBtn").textContent = "Add Student";
-
   $("cancelEdit").style.display = "none";
 
 }
@@ -763,40 +817,42 @@ function resetForm() {
 $("cancelEdit").onclick = resetForm;
 
 
+// =================================
 // SEARCH
+// =================================
 
 $("search").addEventListener("input",render);
 
 $("clearSearch").onclick = () => {
-
   $("search").value = "";
   render();
-
 };
 
 
-// HTML SECURITY
+// =================================
+// SAFE TEXT
+// =================================
 
 function escapeHTML(v) {
 
   return String(v).replace(/[&<>"']/g,c => ({
-
     "&":"&amp;",
     "<":"&lt;",
     ">":"&gt;",
     '"':"&quot;",
     "'":"&#39;"
-
   }[c]));
 
 }
 
 
-// DISPLAY STUDENT RECORDS
+// =================================
+// DASHBOARD AND STUDENT RECORDS
+// =================================
 
 function render() {
 
-  const q = $("search").value.toLowerCase();
+  const q = $("search").value.trim().toLowerCase();
 
   const filtered = students.filter(s =>
     s.name.toLowerCase().includes(q) ||
@@ -808,7 +864,6 @@ function render() {
     <tr>
 
       <td>
-
         <img class="avatar" src="${photoFor(s)}" alt="">
 
         <strong>${escapeHTML(s.name)}</strong>
@@ -816,7 +871,6 @@ function render() {
         <br>
 
         <span class="muted">${escapeHTML(s.roll)}</span>
-
       </td>
 
       <td>${s.total}/300</td>
@@ -832,18 +886,18 @@ function render() {
         <div class="actions">
 
           <button class="secondary"
-          onclick="openProfile('${encodeURIComponent(s.roll)}')">
-          View
+            onclick="openProfile('${encodeURIComponent(s.roll)}')">
+            View
           </button>
 
           <button class="secondary"
-          onclick="editStudent('${encodeURIComponent(s.roll)}')">
-          Edit
+            onclick="editStudent('${encodeURIComponent(s.roll)}')">
+            Edit
           </button>
 
           <button class="danger"
-          onclick="deleteStudent('${encodeURIComponent(s.roll)}')">
-          Delete
+            onclick="deleteStudent('${encodeURIComponent(s.roll)}')">
+            Delete
           </button>
 
         </div>
@@ -858,22 +912,25 @@ function render() {
 
   $("total").textContent = students.length;
 
-  const avg = students.length
-    ? students.reduce((a,s) => a+s.percentage,0) / students.length
+  const average = students.length
+    ? students.reduce((a,s) => a + s.percentage,0) / students.length
     : 0;
 
-  const att = students.length
-    ? students.reduce((a,s) => a+s.attendance,0) / students.length
+  const attendanceAverage = students.length
+    ? students.reduce((a,s) => a + s.attendance,0) / students.length
     : 0;
 
-  $("average").textContent = avg.toFixed(1)+"%";
+  $("average").textContent = average.toFixed(1)+"%";
 
-  $("attendanceAverage").textContent = att.toFixed(1)+"%";
+  $("attendanceAverage").textContent =
+    attendanceAverage.toFixed(1)+"%";
 
 }
 
 
-// OPEN STUDENT PROFILE
+// =================================
+// STUDENT PROFILE
+// =================================
 
 window.openProfile = key => {
 
@@ -894,7 +951,7 @@ window.openProfile = key => {
   $("profileSummary").textContent =
     `Total ${s.total}/300 · ${s.percentage}% · Grade ${s.grade}`;
 
-  $("marksBars").innerHTML = s.marks.map((m,i) => `
+  $("marksBars").innerHTML = s.marks.map(m => `
 
     <div class="barcol">
 
@@ -915,9 +972,7 @@ window.openProfile = key => {
   $("attendanceLegend").innerHTML = `
 
     Present: <b>${s.present}</b> days<br>
-
     Absent: <b>${s.working-s.present}</b> days<br>
-
     Working: <b>${s.working}</b> days
 
   `;
@@ -929,17 +984,14 @@ window.openProfile = key => {
 
 };
 
-
-// CLOSE PROFILE
-
 $("closeProfile").onclick = () => {
-
   $("profile").style.display = "none";
-
 };
 
 
+// =================================
 // EDIT STUDENT
+// =================================
 
 window.editStudent = key => {
 
@@ -963,7 +1015,6 @@ window.editStudent = key => {
 
   $("formTitle").textContent = "Edit Student";
   $("submitBtn").textContent = "Save Changes";
-
   $("cancelEdit").style.display = "block";
 
   window.scrollTo({
@@ -974,7 +1025,9 @@ window.editStudent = key => {
 };
 
 
+// =================================
 // DELETE STUDENT
+// =================================
 
 window.deleteStudent = key => {
 
@@ -982,9 +1035,14 @@ window.deleteStudent = key => {
 
   if(!confirm("Delete this student record?")) return;
 
+  const previous = students;
+
   students = students.filter(s => s.roll !== roll);
 
-  if(!save()) return;
+  if(!save()) {
+    students = previous;
+    return;
+  }
 
   resetForm();
 
@@ -995,11 +1053,11 @@ window.deleteStudent = key => {
 };
 
 
-// ==================================
-// VERSION 3.0 - PDF REPORT GENERATOR
-// ==================================
+// =================================
+// PDF REPORT GENERATOR
+// =================================
 
-$("downloadPDF").onclick = async () => {
+$("downloadPDF").onclick = () => {
 
   const roll = $("profileRoll").textContent
     .replace("Roll Number: ","");
@@ -1007,27 +1065,25 @@ $("downloadPDF").onclick = async () => {
   const s = students.find(x => x.roll === roll);
 
   if(!s) {
-    alert("Student record not found.");
+    alert("Student not found.");
     return;
   }
 
   if(!window.jspdf) {
-    alert("PDF library could not load. Check your internet connection and refresh.");
+    alert("PDF library could not load. Check your internet connection.");
     return;
   }
 
-  const { jsPDF } = window.jspdf;
+  const {jsPDF} = window.jspdf;
 
   const pdf = new jsPDF();
 
   // HEADER
 
   pdf.setFillColor(16,27,61);
-
   pdf.rect(0,0,210,42,"F");
 
   pdf.setTextColor(255,255,255);
-
   pdf.setFontSize(19);
 
   pdf.text("STUDENT PERFORMANCE REPORT",105,18,{
@@ -1040,27 +1096,14 @@ $("downloadPDF").onclick = async () => {
     align:"center"
   });
 
-  // STUDENT PHOTO
-
-  let photoY = 52;
+  // PROFILE IMAGE
 
   if(s.photo) {
 
     try {
-
-      pdf.addImage(
-        s.photo,
-        "JPEG",
-        155,
-        photoY,
-        32,
-        32
-      );
-
-    } catch(err) {
-
-      console.log("Photo could not be added to PDF.");
-
+      pdf.addImage(s.photo,"JPEG",155,50,32,32);
+    } catch(error) {
+      console.log("Profile image could not be added.");
     }
 
   }
@@ -1068,119 +1111,93 @@ $("downloadPDF").onclick = async () => {
   // STUDENT DETAILS
 
   pdf.setTextColor(24,35,63);
-
   pdf.setFontSize(15);
 
   pdf.text("STUDENT DETAILS",20,55);
-
-  pdf.setDrawColor(49,94,251);
-
   pdf.line(20,59,190,59);
 
   pdf.setFontSize(11);
-
   pdf.setTextColor(70,80,100);
 
-  pdf.text("Student Name: " + s.name,20,70);
+  pdf.text("Student Name: "+s.name,20,70);
+  pdf.text("Roll Number: "+s.roll,20,80);
 
-  pdf.text("Roll Number: " + s.roll,20,80);
-
-  // ACADEMIC DETAILS
+  // MARKS
 
   pdf.setTextColor(24,35,63);
-
   pdf.setFontSize(15);
 
   pdf.text("ACADEMIC PERFORMANCE",20,105);
-
   pdf.line(20,109,190,109);
 
   pdf.setFontSize(11);
-
   pdf.setTextColor(70,80,100);
 
-  pdf.text("Subject 1 Marks: " + s.marks[0] + "/100",20,120);
+  pdf.text("Subject 1: "+s.marks[0]+"/100",20,120);
+  pdf.text("Subject 2: "+s.marks[1]+"/100",20,130);
+  pdf.text("Subject 3: "+s.marks[2]+"/100",20,140);
+  pdf.text("Total Marks: "+s.total+"/300",20,150);
+  pdf.text("Percentage: "+s.percentage+"%",20,160);
+  pdf.text("Grade: "+s.grade,20,170);
 
-  pdf.text("Subject 2 Marks: " + s.marks[1] + "/100",20,130);
-
-  pdf.text("Subject 3 Marks: " + s.marks[2] + "/100",20,140);
-
-  pdf.text("Total Marks: " + s.total + "/300",20,150);
-
-  pdf.text("Percentage: " + s.percentage + "%",20,160);
-
-  pdf.text("Grade: " + s.grade,20,170);
-
-  // ATTENDANCE DETAILS
+  // ATTENDANCE
 
   pdf.setTextColor(24,35,63);
-
   pdf.setFontSize(15);
 
   pdf.text("ATTENDANCE DETAILS",20,190);
-
   pdf.line(20,194,190,194);
 
   pdf.setFontSize(11);
-
   pdf.setTextColor(70,80,100);
 
-  pdf.text("Total Working Days: " + s.working,20,205);
+  pdf.text("Working Days: "+s.working,20,205);
+  pdf.text("Present Days: "+s.present,20,215);
+  pdf.text("Absent Days: "+(s.working-s.present),20,225);
+  pdf.text("Attendance: "+s.attendance+"%",20,235);
 
-  pdf.text("Present Days: " + s.present,20,215);
-
-  pdf.text("Absent Days: " + (s.working-s.present),20,225);
-
-  pdf.text("Attendance Percentage: " + s.attendance + "%",20,235);
-
-  // PERFORMANCE SUMMARY
+  // SUMMARY
 
   pdf.setFillColor(235,241,255);
-
   pdf.roundedRect(20,248,170,20,3,3,"F");
 
   pdf.setTextColor(37,72,189);
-
   pdf.setFontSize(12);
 
   pdf.text(
-    "Overall Grade: " + s.grade + " | " + s.percentage + "%",
-    105,
-    260,
+    "Overall Grade: "+s.grade+" | "+s.percentage+"%",
+    105,260,
     {align:"center"}
   );
 
   // FOOTER
 
   pdf.setTextColor(120,130,150);
-
   pdf.setFontSize(9);
 
   pdf.text(
-    "Generated on: " + new Date().toLocaleDateString(),
-    20,
-    282
+    "Generated on: "+new Date().toLocaleDateString(),
+    20,282
   );
 
   pdf.text(
     "PPS Mini Project - Student Management System",
-    105,
-    289,
+    105,289,
     {align:"center"}
   );
 
-  // DOWNLOAD
-
   const safeRoll = s.roll.replace(/[^a-z0-9_-]/gi,"_");
 
-  pdf.save(safeRoll + "_Student_Report.pdf");
+  pdf.save(safeRoll+"_Student_Report.pdf");
 
-  alert("Student PDF report downloaded successfully!");
+  alert("PDF downloaded successfully!");
 
 };
 
 
-// INITIAL DISPLAY
+// =================================
+// START APPLICATION
+// =================================
 
 render();
 
