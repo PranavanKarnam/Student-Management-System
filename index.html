@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Management System</title>
+<title>Student Management System 3.0</title>
+
+<!-- PDF Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 :root {
@@ -66,6 +69,7 @@ main {
 
 .stat { padding: 20px; }
 .stat span { color: var(--muted); }
+
 .stat strong {
   display: block;
   font-size: 30px;
@@ -327,12 +331,13 @@ footer {
     <h1>Student Management System</h1>
     <p>Academic Records, Attendance & Performance Dashboard</p>
   </div>
-  <span class="badge">PPS Mini Project</span>
+  <span class="badge">PPS Mini Project | Version 3.0</span>
 </header>
 
 <main>
 
 <section class="stats">
+
   <div class="card stat">
     <span>Total Students</span>
     <strong id="total">0</strong>
@@ -347,11 +352,13 @@ footer {
     <span>Average Attendance</span>
     <strong id="attendanceAverage">0%</strong>
   </div>
+
 </section>
 
 <section class="grid">
 
 <div class="panel">
+
   <h2 id="formTitle">Add a Student</h2>
 
   <form id="studentForm">
@@ -368,6 +375,7 @@ footer {
     <input id="name" required placeholder="Enter student name">
 
     <div class="row">
+
       <div>
         <label>Subject 1 Marks / 100</label>
         <input id="m1" type="number" min="0" max="100" required>
@@ -377,12 +385,14 @@ footer {
         <label>Subject 2 Marks / 100</label>
         <input id="m2" type="number" min="0" max="100" required>
       </div>
+
     </div>
 
     <label>Subject 3 Marks / 100</label>
     <input id="m3" type="number" min="0" max="100" required>
 
     <div class="row">
+
       <div>
         <label>Total Working Days</label>
         <input id="working" type="number" min="1" required>
@@ -392,20 +402,24 @@ footer {
         <label>Days Attended</label>
         <input id="present" type="number" min="0" required>
       </div>
+
     </div>
 
     <button class="full" type="submit" id="submitBtn">
       Add Student
     </button>
 
-    <button class="secondary full" type="button" id="cancelEdit" style="display:none">
+    <button class="secondary full" type="button"
+      id="cancelEdit" style="display:none">
       Cancel Edit
     </button>
 
   </form>
+
 </div>
 
 <div class="panel">
+
   <h2>Student Records</h2>
 
   <div class="toolbar">
@@ -414,7 +428,9 @@ footer {
   </div>
 
   <div class="tablewrap">
+
     <table>
+
       <thead>
         <tr>
           <th>Student</th>
@@ -425,13 +441,17 @@ footer {
           <th>Action</th>
         </tr>
       </thead>
+
       <tbody id="studentList"></tbody>
+
     </table>
+
   </div>
 
   <div id="empty" class="empty">
     No students added yet.
   </div>
+
 </div>
 
 </section>
@@ -439,6 +459,7 @@ footer {
 <section class="panel profile" id="profile">
 
   <div class="profile-top">
+
     <img id="profilePhoto" class="profile-photo" alt="Student">
 
     <div>
@@ -447,15 +468,22 @@ footer {
       <div class="muted" id="profileSummary"></div>
     </div>
 
+    <button class="secondary" id="downloadPDF">
+      Download PDF
+    </button>
+
     <button class="secondary" id="closeProfile">
       Close Profile
     </button>
+
   </div>
 
   <div class="charts">
 
     <div class="chartbox">
+
       <h3>Subject Marks Graph</h3>
+
       <div class="bars" id="marksBars"></div>
 
       <div style="display:flex;justify-content:space-around">
@@ -463,27 +491,33 @@ footer {
         <span class="barlabel">Subject 2</span>
         <span class="barlabel">Subject 3</span>
       </div>
+
     </div>
 
     <div class="chartbox">
+
       <h3>Attendance Graph</h3>
 
       <div class="donut-wrap">
+
         <div class="donut" id="attendanceDonut">
           <b id="attendanceText">0%</b>
         </div>
 
         <div class="legend" id="attendanceLegend"></div>
+
       </div>
+
     </div>
 
   </div>
+
 </section>
 
 </main>
 
 <footer>
-  Student Management System | PPS Mini Project
+  Student Management System | PPS Mini Project | Version 3.0
 </footer>
 
 <script>
@@ -495,36 +529,62 @@ let editingRoll = null;
 
 const $ = id => document.getElementById(id);
 
+
+// SAVE DATA
+
 function save() {
+
   try {
+
     localStorage.setItem(KEY, JSON.stringify(students));
     return true;
+
   } catch(e) {
+
     alert("Storage is full. Try a smaller photo.");
     return false;
+
   }
+
 }
 
+
+// GRADE CALCULATION
+
 function grade(p) {
+
   if(p >= 90) return "A";
   if(p >= 80) return "B";
   if(p >= 70) return "C";
   if(p >= 60) return "D";
+
   return "F";
+
 }
 
+
+// DEFAULT PROFILE PHOTO
+
 function photoFor(s) {
+
   return s.photo || "data:image/svg+xml;charset=UTF-8," +
   encodeURIComponent(
+
     '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">' +
     '<rect width="100" height="100" rx="50" fill="#e9efff"/>' +
     '<circle cx="50" cy="38" r="19" fill="#8ba5e8"/>' +
     '<path d="M15 96c3-24 17-35 35-35s32 11 35 35" fill="#8ba5e8"/>' +
     '</svg>'
+
   );
+
 }
 
+
+// READ AND RESIZE IMAGE
+
 function readPhoto(file) {
+
   return new Promise((resolve,reject) => {
 
     if(!file) {
@@ -540,9 +600,11 @@ function readPhoto(file) {
     const reader = new FileReader();
 
     reader.onload = () => {
+
       const img = new Image();
 
       img.onload = () => {
+
         const canvas = document.createElement("canvas");
 
         const scale = Math.min(
@@ -558,16 +620,23 @@ function readPhoto(file) {
         );
 
         resolve(canvas.toDataURL("image/jpeg",0.72));
+
       };
 
       img.onerror = () => reject(Error("Invalid image."));
       img.src = reader.result;
+
     };
 
     reader.onerror = () => reject(Error("Could not read image."));
     reader.readAsDataURL(file);
+
   });
+
 }
+
+
+// ADD OR UPDATE STUDENT
 
 $("studentForm").addEventListener("submit", async e => {
 
@@ -587,23 +656,29 @@ $("studentForm").addEventListener("submit", async e => {
 
   if(!roll || !name ||
      marks.some(v => !Number.isInteger(v) || v < 0 || v > 100)) {
+
     alert("Enter valid details and marks between 0 and 100.");
     return;
+
   }
 
   if(!Number.isInteger(working) || working < 1 ||
      !Number.isInteger(present) || present < 0 ||
      present > working) {
+
     alert("Please enter valid attendance details.");
     return;
+
   }
 
   if(students.some(s =>
     s.roll.toLowerCase() === roll.toLowerCase() &&
     s.roll !== editingRoll
   )) {
+
     alert("Roll number already exists.");
     return;
+
   }
 
   const old = students.find(s => s.roll === editingRoll);
@@ -611,73 +686,113 @@ $("studentForm").addEventListener("submit", async e => {
   let photo = old?.photo || null;
 
   try {
+
     if($("photo").files[0]) {
       photo = await readPhoto($("photo").files[0]);
     }
+
   } catch(err) {
+
     alert(err.message);
     return;
+
   }
 
   const total = marks.reduce((a,b) => a+b,0);
   const percentage = total / 3;
 
   const student = {
+
     roll,
     name,
     marks,
     total,
+
     percentage: Number(percentage.toFixed(2)),
+
     grade: grade(percentage),
+
     working,
     present,
+
     attendance: Number((present/working*100).toFixed(2)),
+
     photo
+
   };
 
   if(editingRoll) {
+
     students = students.map(s =>
       s.roll === editingRoll ? student : s
     );
+
   } else {
+
     students.push(student);
+
   }
 
   if(!save()) return;
 
   resetForm();
   render();
+
   openProfile(encodeURIComponent(roll));
 
   alert("Student saved successfully!");
+
 });
 
+
+// RESET FORM
+
 function resetForm() {
+
   editingRoll = null;
+
   $("studentForm").reset();
+
   $("formTitle").textContent = "Add a Student";
   $("submitBtn").textContent = "Add Student";
+
   $("cancelEdit").style.display = "none";
+
 }
 
 $("cancelEdit").onclick = resetForm;
 
+
+// SEARCH
+
 $("search").addEventListener("input",render);
 
 $("clearSearch").onclick = () => {
+
   $("search").value = "";
   render();
+
 };
 
+
+// HTML SECURITY
+
 function escapeHTML(v) {
+
   return String(v).replace(/[&<>"']/g,c => ({
+
     "&":"&amp;",
     "<":"&lt;",
     ">":"&gt;",
     '"':"&quot;",
     "'":"&#39;"
+
   }[c]));
+
 }
+
+
+// DISPLAY STUDENT RECORDS
 
 function render() {
 
@@ -689,25 +804,54 @@ function render() {
   );
 
   $("studentList").innerHTML = filtered.map(s => `
+
     <tr>
+
       <td>
+
         <img class="avatar" src="${photoFor(s)}" alt="">
+
         <strong>${escapeHTML(s.name)}</strong>
+
         <br>
+
         <span class="muted">${escapeHTML(s.roll)}</span>
+
       </td>
+
       <td>${s.total}/300</td>
+
       <td>${s.percentage.toFixed(2)}%</td>
+
       <td>${s.grade}</td>
+
       <td>${s.attendance.toFixed(1)}%</td>
+
       <td>
+
         <div class="actions">
-          <button class="secondary" onclick="openProfile('${encodeURIComponent(s.roll)}')">View</button>
-          <button class="secondary" onclick="editStudent('${encodeURIComponent(s.roll)}')">Edit</button>
-          <button class="danger" onclick="deleteStudent('${encodeURIComponent(s.roll)}')">Delete</button>
+
+          <button class="secondary"
+          onclick="openProfile('${encodeURIComponent(s.roll)}')">
+          View
+          </button>
+
+          <button class="secondary"
+          onclick="editStudent('${encodeURIComponent(s.roll)}')">
+          Edit
+          </button>
+
+          <button class="danger"
+          onclick="deleteStudent('${encodeURIComponent(s.roll)}')">
+          Delete
+          </button>
+
         </div>
+
       </td>
+
     </tr>
+
   `).join("");
 
   $("empty").style.display = filtered.length ? "none" : "block";
@@ -723,29 +867,43 @@ function render() {
     : 0;
 
   $("average").textContent = avg.toFixed(1)+"%";
+
   $("attendanceAverage").textContent = att.toFixed(1)+"%";
+
 }
+
+
+// OPEN STUDENT PROFILE
 
 window.openProfile = key => {
 
   const roll = decodeURIComponent(key);
+
   const s = students.find(x => x.roll === roll);
 
   if(!s) return;
 
   $("profile").style.display = "block";
+
   $("profilePhoto").src = photoFor(s);
+
   $("profileName").textContent = s.name;
+
   $("profileRoll").textContent = "Roll Number: "+s.roll;
 
   $("profileSummary").textContent =
     `Total ${s.total}/300 · ${s.percentage}% · Grade ${s.grade}`;
 
   $("marksBars").innerHTML = s.marks.map((m,i) => `
+
     <div class="barcol">
+
       <span class="barval">${m}</span>
+
       <div class="bar" style="height:${Math.max(2,m)}%"></div>
+
     </div>
+
   `).join("");
 
   $("attendanceDonut").style.background =
@@ -755,20 +913,33 @@ window.openProfile = key => {
     s.attendance.toFixed(1)+"%";
 
   $("attendanceLegend").innerHTML = `
+
     Present: <b>${s.present}</b> days<br>
+
     Absent: <b>${s.working-s.present}</b> days<br>
+
     Working: <b>${s.working}</b> days
+
   `;
 
   $("profile").scrollIntoView({
     behavior:"smooth",
     block:"start"
   });
+
 };
 
+
+// CLOSE PROFILE
+
 $("closeProfile").onclick = () => {
+
   $("profile").style.display = "none";
+
 };
+
+
+// EDIT STUDENT
 
 window.editStudent = key => {
 
@@ -792,10 +963,18 @@ window.editStudent = key => {
 
   $("formTitle").textContent = "Edit Student";
   $("submitBtn").textContent = "Save Changes";
+
   $("cancelEdit").style.display = "block";
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 };
+
+
+// DELETE STUDENT
 
 window.deleteStudent = key => {
 
@@ -805,13 +984,203 @@ window.deleteStudent = key => {
 
   students = students.filter(s => s.roll !== roll);
 
-  save();
+  if(!save()) return;
+
   resetForm();
 
   $("profile").style.display = "none";
 
   render();
+
 };
+
+
+// ==================================
+// VERSION 3.0 - PDF REPORT GENERATOR
+// ==================================
+
+$("downloadPDF").onclick = async () => {
+
+  const roll = $("profileRoll").textContent
+    .replace("Roll Number: ","");
+
+  const s = students.find(x => x.roll === roll);
+
+  if(!s) {
+    alert("Student record not found.");
+    return;
+  }
+
+  if(!window.jspdf) {
+    alert("PDF library could not load. Check your internet connection and refresh.");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+
+  const pdf = new jsPDF();
+
+  // HEADER
+
+  pdf.setFillColor(16,27,61);
+
+  pdf.rect(0,0,210,42,"F");
+
+  pdf.setTextColor(255,255,255);
+
+  pdf.setFontSize(19);
+
+  pdf.text("STUDENT PERFORMANCE REPORT",105,18,{
+    align:"center"
+  });
+
+  pdf.setFontSize(10);
+
+  pdf.text("STUDENT MANAGEMENT SYSTEM",105,28,{
+    align:"center"
+  });
+
+  // STUDENT PHOTO
+
+  let photoY = 52;
+
+  if(s.photo) {
+
+    try {
+
+      pdf.addImage(
+        s.photo,
+        "JPEG",
+        155,
+        photoY,
+        32,
+        32
+      );
+
+    } catch(err) {
+
+      console.log("Photo could not be added to PDF.");
+
+    }
+
+  }
+
+  // STUDENT DETAILS
+
+  pdf.setTextColor(24,35,63);
+
+  pdf.setFontSize(15);
+
+  pdf.text("STUDENT DETAILS",20,55);
+
+  pdf.setDrawColor(49,94,251);
+
+  pdf.line(20,59,190,59);
+
+  pdf.setFontSize(11);
+
+  pdf.setTextColor(70,80,100);
+
+  pdf.text("Student Name: " + s.name,20,70);
+
+  pdf.text("Roll Number: " + s.roll,20,80);
+
+  // ACADEMIC DETAILS
+
+  pdf.setTextColor(24,35,63);
+
+  pdf.setFontSize(15);
+
+  pdf.text("ACADEMIC PERFORMANCE",20,105);
+
+  pdf.line(20,109,190,109);
+
+  pdf.setFontSize(11);
+
+  pdf.setTextColor(70,80,100);
+
+  pdf.text("Subject 1 Marks: " + s.marks[0] + "/100",20,120);
+
+  pdf.text("Subject 2 Marks: " + s.marks[1] + "/100",20,130);
+
+  pdf.text("Subject 3 Marks: " + s.marks[2] + "/100",20,140);
+
+  pdf.text("Total Marks: " + s.total + "/300",20,150);
+
+  pdf.text("Percentage: " + s.percentage + "%",20,160);
+
+  pdf.text("Grade: " + s.grade,20,170);
+
+  // ATTENDANCE DETAILS
+
+  pdf.setTextColor(24,35,63);
+
+  pdf.setFontSize(15);
+
+  pdf.text("ATTENDANCE DETAILS",20,190);
+
+  pdf.line(20,194,190,194);
+
+  pdf.setFontSize(11);
+
+  pdf.setTextColor(70,80,100);
+
+  pdf.text("Total Working Days: " + s.working,20,205);
+
+  pdf.text("Present Days: " + s.present,20,215);
+
+  pdf.text("Absent Days: " + (s.working-s.present),20,225);
+
+  pdf.text("Attendance Percentage: " + s.attendance + "%",20,235);
+
+  // PERFORMANCE SUMMARY
+
+  pdf.setFillColor(235,241,255);
+
+  pdf.roundedRect(20,248,170,20,3,3,"F");
+
+  pdf.setTextColor(37,72,189);
+
+  pdf.setFontSize(12);
+
+  pdf.text(
+    "Overall Grade: " + s.grade + " | " + s.percentage + "%",
+    105,
+    260,
+    {align:"center"}
+  );
+
+  // FOOTER
+
+  pdf.setTextColor(120,130,150);
+
+  pdf.setFontSize(9);
+
+  pdf.text(
+    "Generated on: " + new Date().toLocaleDateString(),
+    20,
+    282
+  );
+
+  pdf.text(
+    "PPS Mini Project - Student Management System",
+    105,
+    289,
+    {align:"center"}
+  );
+
+  // DOWNLOAD
+
+  const safeRoll = s.roll.replace(/[^a-z0-9_-]/gi,"_");
+
+  pdf.save(safeRoll + "_Student_Report.pdf");
+
+  alert("Student PDF report downloaded successfully!");
+
+};
+
+
+// INITIAL DISPLAY
 
 render();
 
