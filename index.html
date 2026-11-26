@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f5fa;
+    color: #222;
+}
+
+header {
+    background: #172554;
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0001;
+}
+
+.card h3 {
+    color: #475569;
+}
+
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1d4ed8;
+}
+
+.form, .records {
+    background: white;
+    padding: 25px;
+    margin-top: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0001;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 9px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button {
+    padding: 12px 20px;
+    background: #1d4ed8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #172554;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #172554;
+    color: white;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Student Management System</h1>
+    <p>Manage Student Academic Records Easily</p>
+</header>
+
+<div class="container">
+
+    <div class="cards">
+        <div class="card">
+            <h3>Total Students</h3>
+            <p id="total">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Average Percentage</h3>
+            <p id="average">0%</p>
+        </div>
+    </div>
+
+    <div class="form">
+        <h2>Add Student</h2>
+
+        <input type="number" id="roll" placeholder="Roll Number">
+        <input type="text" id="name" placeholder="Student Name">
+
+        <input type="number" id="m1" placeholder="Subject 1 Marks">
+        <input type="number" id="m2" placeholder="Subject 2 Marks">
+        <input type="number" id="m3" placeholder="Subject 3 Marks">
+
+        <button onclick="addStudent()">Add Student</button>
+    </div>
+
+    <div class="records">
+        <h2>Student Records</h2>
+
+        <input type="text" id="search"
+        placeholder="Search by Roll Number or Name"
+        oninput="displayStudents()">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Roll</th>
+                    <th>Name</th>
+                    <th>Total</th>
+                    <th>Percentage</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+
+            <tbody id="studentList"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<footer>
+    <p>Student Management System | PPS Mini Project</p>
+    <p>Developed by K Sai Pranavan</p>
+</footer>
+
+<script>
+
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+function addStudent() {
+
+    let roll = document.getElementById("roll").value.trim();
+    let name = document.getElementById("name").value.trim();
+
+    let m1 = Number(document.getElementById("m1").value);
+    let m2 = Number(document.getElementById("m2").value);
+    let m3 = Number(document.getElementById("m3").value);
+
+    if (!roll || !name ||
+        document.getElementById("m1").value === "" ||
+        document.getElementById("m2").value === "" ||
+        document.getElementById("m3").value === "") {
+        alert("Please fill all fields!");
+        return;
+    }
+
+    if (![m1, m2, m3].every(m => Number.isInteger(m) && m >= 0 && m <= 100)) {
+        alert("Marks must be whole numbers between 0 and 100!");
+        return;
+    }
+
+    if (students.some(s => s.roll === roll)) {
+        alert("Roll number already exists!");
+        return;
+    }
+
+    let total = m1 + m2 + m3;
+    let percentage = total / 3;
+
+    let grade =
+        percentage >= 90 ? "A" :
+        percentage >= 80 ? "B" :
+        percentage >= 70 ? "C" :
+        percentage >= 60 ? "D" : "F";
+
+    students.push({
+        roll, name, total,
+        percentage: percentage.toFixed(2),
+        grade
+    });
+
+    localStorage.setItem("students", JSON.stringify(students));
+
+    displayStudents();
+
+    document.querySelectorAll(".form input").forEach(input => {
+        input.value = "";
+    });
+
+    alert("Student added successfully!");
+}
+
+function displayStudents() {
+
+    let list = document.getElementById("studentList");
+    let search = document.getElementById("search").value.toLowerCase();
+
+    list.innerHTML = "";
+
+    let filtered = students.filter(s =>
+        s.name.toLowerCase().includes(search) ||
+        s.roll.toLowerCase().includes(search)
+    );
+
+    filtered.forEach(s => {
+        list.innerHTML += `
+            <tr>
+                <td>${s.roll}</td>
+                <td>${s.name}</td>
+                <td>${s.total}</td>
+                <td>${s.percentage}%</td>
+                <td>${s.grade}</td>
+            </tr>
+        `;
+    });
+
+    document.getElementById("total").innerText = students.length;
+
+    let avg = students.length
+        ? students.reduce((sum, s) => sum + Number(s.percentage), 0) / students.length
+        : 0;
+
+    document.getElementById("average").innerText = avg.toFixed(2) + "%";
+}
+
+displayStudents();
+
+</script>
+
+</body>
+</html>
