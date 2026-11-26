@@ -1,0 +1,60 @@
+STUDENT MANAGEMENT SYSTEM
+=========================
+
+1. Add Student
+2. Display Students
+3. Search Student
+4. Exit
+
+Enter your choice: 1
+
+Enter Roll Number: 101
+Enter Student Name: Pranavan
+
+Enter marks in 3 subjects:
+Subject 1: 90
+Subject 2: 85
+Subject 3: 95
+
+Student added successfully!
+
+1. Add Student
+2. Display Students
+3. Search Student
+4. Exit
+
+Enter your choice: 2
+
+===== STUDENT DETAILS =====
+
+Roll Number : 101
+Name        : Pranavan
+Total Marks : 270
+Percentage  : 90.00%
+Grade       : A
+
+1. Add Student
+2. Display Students
+3. Search Student
+4. Exit
+
+Enter your choice: 3
+
+Enter Roll Number to search: 101
+
+===== STUDENT FOUND =====
+
+Roll Number : 101
+Name        : Pranavan
+Total Marks : 270
+Percentage  : 90.00%
+Grade       : A
+
+1. Add Student
+2. Display Students
+3. Search Student
+4. Exit
+
+Enter your choice: 4
+
+Thank you for using the system!
