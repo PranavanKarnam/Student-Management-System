@@ -6,108 +6,316 @@
 <title>Student Management System</title>
 
 <style>
-* {
-    box-sizing: border-box;
+:root {
+  --navy: #101b3d;
+  --blue: #315efb;
+  --cyan: #16b8c8;
+  --bg: #f4f7fc;
+  --ink: #18233f;
+  --muted: #71809c;
+  --line: #e7ecf5;
 }
 
+* { box-sizing: border-box; }
+
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f3f5fa;
-    color: #222;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
 }
 
 header {
-    background: #172554;
-    color: white;
-    padding: 25px;
-    text-align: center;
+  background: linear-gradient(120deg,#101b3d,#203d80);
+  color: white;
+  padding: 28px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-header h1 {
-    margin: 0;
+header h1 { margin: 0; }
+header p { color: #cbd7f5; }
+
+.badge {
+  background: #ffffff20;
+  padding: 10px 15px;
+  border-radius: 25px;
 }
 
-.container {
-    max-width: 1000px;
-    margin: 30px auto;
-    padding: 20px;
+main {
+  max-width: 1180px;
+  margin: 28px auto;
+  padding: 0 18px;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
+  gap: 16px;
 }
 
-.card {
-    background: white;
-    padding: 22px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px #0001;
+.card,.panel {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px #1b2c5010;
 }
 
-.card h3 {
-    color: #475569;
+.stat { padding: 20px; }
+.stat span { color: var(--muted); }
+.stat strong {
+  display: block;
+  font-size: 30px;
+  margin-top: 8px;
+  color: var(--blue);
 }
 
-.card p {
-    font-size: 28px;
-    font-weight: bold;
-    color: #1d4ed8;
+.grid {
+  display: grid;
+  grid-template-columns: minmax(280px,.85fr) minmax(0,1.5fr);
+  gap: 18px;
+  margin-top: 20px;
 }
 
-.form, .records {
-    background: white;
-    padding: 25px;
-    margin-top: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px #0001;
+.panel { padding: 22px; }
+.panel h2 { margin-top: 0; }
+
+label {
+  display: block;
+  margin: 12px 0 6px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #53617c;
 }
 
 input {
-    width: 100%;
-    padding: 12px;
-    margin: 9px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #dce3ef;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: 2px solid #c9d5ff;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--muted);
 }
 
 button {
-    padding: 12px 20px;
-    background: #1d4ed8;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 10px;
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  background: var(--blue);
+  color: white;
 }
 
-button:hover {
-    background: #172554;
+button:hover { opacity: .9; }
+
+.secondary {
+  background: #eaf0ff;
+  color: #2548bd;
 }
+
+.danger {
+  background: #fff0f0;
+  color: #c03939;
+}
+
+.full {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.toolbar input { flex: 1; }
+
+.tablewrap { overflow-x: auto; }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 570px;
 }
 
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
+th,td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
 }
 
 th {
-    background: #172554;
-    color: white;
+  color: #75819a;
+  text-transform: uppercase;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+  margin-right: 9px;
+  background: #e9efff;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 28px;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.profile {
+  margin-top: 20px;
+  display: none;
+}
+
+.profile-top {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.profile-photo {
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+  object-fit: cover;
+  background: #e9efff;
+}
+
+.profile-top h2 { margin: 0 0 5px; }
+
+.charts {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.chartbox {
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 16px;
+}
+
+.chartbox h3 { font-size: 15px; }
+
+.bars {
+  height: 190px;
+  display: flex;
+  align-items: end;
+  justify-content: space-around;
+  gap: 15px;
+  padding: 12px 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.barcol {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+}
+
+.bar {
+  width: min(48px,75%);
+  min-height: 3px;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(180deg,#18bfd0,#315efb);
+}
+
+.barval { font-size: 12px; color: #52617d; }
+.barlabel { font-size: 12px; color: var(--muted); }
+
+.donut-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  min-height: 180px;
+}
+
+.donut {
+  width: 135px;
+  height: 135px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--cyan) 0deg,#e9eef7 0deg);
+  position: relative;
+}
+
+.donut:before {
+  content: "";
+  position: absolute;
+  width: 93px;
+  height: 93px;
+  border-radius: 50%;
+  background: white;
+}
+
+.donut b {
+  z-index: 1;
+  font-size: 21px;
+}
+
+.legend {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 2;
 }
 
 footer {
-    text-align: center;
-    padding: 20px;
-    color: #64748b;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 28px;
+}
+
+@media(max-width:800px) {
+  .grid,.charts { grid-template-columns: 1fr; }
+}
+
+@media(max-width:480px) {
+  .panel { padding: 16px; }
+  .row { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -115,157 +323,497 @@ footer {
 <body>
 
 <header>
+  <div>
     <h1>Student Management System</h1>
-    <p>Manage Student Academic Records Easily</p>
+    <p>Academic Records, Attendance & Performance Dashboard</p>
+  </div>
+  <span class="badge">PPS Mini Project</span>
 </header>
 
-<div class="container">
+<main>
 
-    <div class="cards">
-        <div class="card">
-            <h3>Total Students</h3>
-            <p id="total">0</p>
-        </div>
+<section class="stats">
+  <div class="card stat">
+    <span>Total Students</span>
+    <strong id="total">0</strong>
+  </div>
 
-        <div class="card">
-            <h3>Average Percentage</h3>
-            <p id="average">0%</p>
-        </div>
+  <div class="card stat">
+    <span>Class Average</span>
+    <strong id="average">0%</strong>
+  </div>
+
+  <div class="card stat">
+    <span>Average Attendance</span>
+    <strong id="attendanceAverage">0%</strong>
+  </div>
+</section>
+
+<section class="grid">
+
+<div class="panel">
+  <h2 id="formTitle">Add a Student</h2>
+
+  <form id="studentForm">
+
+    <label>Student Profile Picture</label>
+    <input id="photo" type="file" accept="image/*">
+
+    <p class="hint">Upload a JPG or PNG image.</p>
+
+    <label>Roll Number</label>
+    <input id="roll" required placeholder="Enter roll number">
+
+    <label>Student Name</label>
+    <input id="name" required placeholder="Enter student name">
+
+    <div class="row">
+      <div>
+        <label>Subject 1 Marks / 100</label>
+        <input id="m1" type="number" min="0" max="100" required>
+      </div>
+
+      <div>
+        <label>Subject 2 Marks / 100</label>
+        <input id="m2" type="number" min="0" max="100" required>
+      </div>
     </div>
 
-    <div class="form">
-        <h2>Add Student</h2>
+    <label>Subject 3 Marks / 100</label>
+    <input id="m3" type="number" min="0" max="100" required>
 
-        <input type="number" id="roll" placeholder="Roll Number">
-        <input type="text" id="name" placeholder="Student Name">
+    <div class="row">
+      <div>
+        <label>Total Working Days</label>
+        <input id="working" type="number" min="1" required>
+      </div>
 
-        <input type="number" id="m1" placeholder="Subject 1 Marks">
-        <input type="number" id="m2" placeholder="Subject 2 Marks">
-        <input type="number" id="m3" placeholder="Subject 3 Marks">
-
-        <button onclick="addStudent()">Add Student</button>
+      <div>
+        <label>Days Attended</label>
+        <input id="present" type="number" min="0" required>
+      </div>
     </div>
 
-    <div class="records">
-        <h2>Student Records</h2>
+    <button class="full" type="submit" id="submitBtn">
+      Add Student
+    </button>
 
-        <input type="text" id="search"
-        placeholder="Search by Roll Number or Name"
-        oninput="displayStudents()">
+    <button class="secondary full" type="button" id="cancelEdit" style="display:none">
+      Cancel Edit
+    </button>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Roll</th>
-                    <th>Name</th>
-                    <th>Total</th>
-                    <th>Percentage</th>
-                    <th>Grade</th>
-                </tr>
-            </thead>
-
-            <tbody id="studentList"></tbody>
-        </table>
-    </div>
-
+  </form>
 </div>
 
+<div class="panel">
+  <h2>Student Records</h2>
+
+  <div class="toolbar">
+    <input id="search" placeholder="Search student">
+    <button class="secondary" id="clearSearch">Clear</button>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Total</th>
+          <th>Percentage</th>
+          <th>Grade</th>
+          <th>Attendance</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="studentList"></tbody>
+    </table>
+  </div>
+
+  <div id="empty" class="empty">
+    No students added yet.
+  </div>
+</div>
+
+</section>
+
+<section class="panel profile" id="profile">
+
+  <div class="profile-top">
+    <img id="profilePhoto" class="profile-photo" alt="Student">
+
+    <div>
+      <h2 id="profileName"></h2>
+      <div class="muted" id="profileRoll"></div>
+      <div class="muted" id="profileSummary"></div>
+    </div>
+
+    <button class="secondary" id="closeProfile">
+      Close Profile
+    </button>
+  </div>
+
+  <div class="charts">
+
+    <div class="chartbox">
+      <h3>Subject Marks Graph</h3>
+      <div class="bars" id="marksBars"></div>
+
+      <div style="display:flex;justify-content:space-around">
+        <span class="barlabel">Subject 1</span>
+        <span class="barlabel">Subject 2</span>
+        <span class="barlabel">Subject 3</span>
+      </div>
+    </div>
+
+    <div class="chartbox">
+      <h3>Attendance Graph</h3>
+
+      <div class="donut-wrap">
+        <div class="donut" id="attendanceDonut">
+          <b id="attendanceText">0%</b>
+        </div>
+
+        <div class="legend" id="attendanceLegend"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
 <footer>
-    <p>Student Management System | PPS Mini Project</p>
-    <p>Developed by K Sai Pranavan</p>
+  Student Management System | PPS Mini Project
 </footer>
 
 <script>
 
-let students = JSON.parse(localStorage.getItem("students")) || [];
+const KEY = "students";
 
-function addStudent() {
+let students = JSON.parse(localStorage.getItem(KEY) || "[]");
+let editingRoll = null;
 
-    let roll = document.getElementById("roll").value.trim();
-    let name = document.getElementById("name").value.trim();
+const $ = id => document.getElementById(id);
 
-    let m1 = Number(document.getElementById("m1").value);
-    let m2 = Number(document.getElementById("m2").value);
-    let m3 = Number(document.getElementById("m3").value);
-
-    if (!roll || !name ||
-        document.getElementById("m1").value === "" ||
-        document.getElementById("m2").value === "" ||
-        document.getElementById("m3").value === "") {
-        alert("Please fill all fields!");
-        return;
-    }
-
-    if (![m1, m2, m3].every(m => Number.isInteger(m) && m >= 0 && m <= 100)) {
-        alert("Marks must be whole numbers between 0 and 100!");
-        return;
-    }
-
-    if (students.some(s => s.roll === roll)) {
-        alert("Roll number already exists!");
-        return;
-    }
-
-    let total = m1 + m2 + m3;
-    let percentage = total / 3;
-
-    let grade =
-        percentage >= 90 ? "A" :
-        percentage >= 80 ? "B" :
-        percentage >= 70 ? "C" :
-        percentage >= 60 ? "D" : "F";
-
-    students.push({
-        roll, name, total,
-        percentage: percentage.toFixed(2),
-        grade
-    });
-
-    localStorage.setItem("students", JSON.stringify(students));
-
-    displayStudents();
-
-    document.querySelectorAll(".form input").forEach(input => {
-        input.value = "";
-    });
-
-    alert("Student added successfully!");
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(students));
+    return true;
+  } catch(e) {
+    alert("Storage is full. Try a smaller photo.");
+    return false;
+  }
 }
 
-function displayStudents() {
+function grade(p) {
+  if(p >= 90) return "A";
+  if(p >= 80) return "B";
+  if(p >= 70) return "C";
+  if(p >= 60) return "D";
+  return "F";
+}
 
-    let list = document.getElementById("studentList");
-    let search = document.getElementById("search").value.toLowerCase();
+function photoFor(s) {
+  return s.photo || "data:image/svg+xml;charset=UTF-8," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">' +
+    '<rect width="100" height="100" rx="50" fill="#e9efff"/>' +
+    '<circle cx="50" cy="38" r="19" fill="#8ba5e8"/>' +
+    '<path d="M15 96c3-24 17-35 35-35s32 11 35 35" fill="#8ba5e8"/>' +
+    '</svg>'
+  );
+}
 
-    list.innerHTML = "";
+function readPhoto(file) {
+  return new Promise((resolve,reject) => {
 
-    let filtered = students.filter(s =>
-        s.name.toLowerCase().includes(search) ||
-        s.roll.toLowerCase().includes(search)
+    if(!file) {
+      resolve(null);
+      return;
+    }
+
+    if(!file.type.startsWith("image/")) {
+      reject(Error("Please select an image."));
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const img = new Image();
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+
+        const scale = Math.min(
+          1,
+          320 / Math.max(img.width,img.height)
+        );
+
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+
+        canvas.getContext("2d").drawImage(
+          img,0,0,canvas.width,canvas.height
+        );
+
+        resolve(canvas.toDataURL("image/jpeg",0.72));
+      };
+
+      img.onerror = () => reject(Error("Invalid image."));
+      img.src = reader.result;
+    };
+
+    reader.onerror = () => reject(Error("Could not read image."));
+    reader.readAsDataURL(file);
+  });
+}
+
+$("studentForm").addEventListener("submit", async e => {
+
+  e.preventDefault();
+
+  const roll = $("roll").value.trim();
+  const name = $("name").value.trim();
+
+  const marks = [
+    Number($("m1").value),
+    Number($("m2").value),
+    Number($("m3").value)
+  ];
+
+  const working = Number($("working").value);
+  const present = Number($("present").value);
+
+  if(!roll || !name ||
+     marks.some(v => !Number.isInteger(v) || v < 0 || v > 100)) {
+    alert("Enter valid details and marks between 0 and 100.");
+    return;
+  }
+
+  if(!Number.isInteger(working) || working < 1 ||
+     !Number.isInteger(present) || present < 0 ||
+     present > working) {
+    alert("Please enter valid attendance details.");
+    return;
+  }
+
+  if(students.some(s =>
+    s.roll.toLowerCase() === roll.toLowerCase() &&
+    s.roll !== editingRoll
+  )) {
+    alert("Roll number already exists.");
+    return;
+  }
+
+  const old = students.find(s => s.roll === editingRoll);
+
+  let photo = old?.photo || null;
+
+  try {
+    if($("photo").files[0]) {
+      photo = await readPhoto($("photo").files[0]);
+    }
+  } catch(err) {
+    alert(err.message);
+    return;
+  }
+
+  const total = marks.reduce((a,b) => a+b,0);
+  const percentage = total / 3;
+
+  const student = {
+    roll,
+    name,
+    marks,
+    total,
+    percentage: Number(percentage.toFixed(2)),
+    grade: grade(percentage),
+    working,
+    present,
+    attendance: Number((present/working*100).toFixed(2)),
+    photo
+  };
+
+  if(editingRoll) {
+    students = students.map(s =>
+      s.roll === editingRoll ? student : s
     );
+  } else {
+    students.push(student);
+  }
 
-    filtered.forEach(s => {
-        list.innerHTML += `
-            <tr>
-                <td>${s.roll}</td>
-                <td>${s.name}</td>
-                <td>${s.total}</td>
-                <td>${s.percentage}%</td>
-                <td>${s.grade}</td>
-            </tr>
-        `;
-    });
+  if(!save()) return;
 
-    document.getElementById("total").innerText = students.length;
+  resetForm();
+  render();
+  openProfile(encodeURIComponent(roll));
 
-    let avg = students.length
-        ? students.reduce((sum, s) => sum + Number(s.percentage), 0) / students.length
-        : 0;
+  alert("Student saved successfully!");
+});
 
-    document.getElementById("average").innerText = avg.toFixed(2) + "%";
+function resetForm() {
+  editingRoll = null;
+  $("studentForm").reset();
+  $("formTitle").textContent = "Add a Student";
+  $("submitBtn").textContent = "Add Student";
+  $("cancelEdit").style.display = "none";
 }
 
-displayStudents();
+$("cancelEdit").onclick = resetForm;
+
+$("search").addEventListener("input",render);
+
+$("clearSearch").onclick = () => {
+  $("search").value = "";
+  render();
+};
+
+function escapeHTML(v) {
+  return String(v).replace(/[&<>"']/g,c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[c]));
+}
+
+function render() {
+
+  const q = $("search").value.toLowerCase();
+
+  const filtered = students.filter(s =>
+    s.name.toLowerCase().includes(q) ||
+    s.roll.toLowerCase().includes(q)
+  );
+
+  $("studentList").innerHTML = filtered.map(s => `
+    <tr>
+      <td>
+        <img class="avatar" src="${photoFor(s)}" alt="">
+        <strong>${escapeHTML(s.name)}</strong>
+        <br>
+        <span class="muted">${escapeHTML(s.roll)}</span>
+      </td>
+      <td>${s.total}/300</td>
+      <td>${s.percentage.toFixed(2)}%</td>
+      <td>${s.grade}</td>
+      <td>${s.attendance.toFixed(1)}%</td>
+      <td>
+        <div class="actions">
+          <button class="secondary" onclick="openProfile('${encodeURIComponent(s.roll)}')">View</button>
+          <button class="secondary" onclick="editStudent('${encodeURIComponent(s.roll)}')">Edit</button>
+          <button class="danger" onclick="deleteStudent('${encodeURIComponent(s.roll)}')">Delete</button>
+        </div>
+      </td>
+    </tr>
+  `).join("");
+
+  $("empty").style.display = filtered.length ? "none" : "block";
+
+  $("total").textContent = students.length;
+
+  const avg = students.length
+    ? students.reduce((a,s) => a+s.percentage,0) / students.length
+    : 0;
+
+  const att = students.length
+    ? students.reduce((a,s) => a+s.attendance,0) / students.length
+    : 0;
+
+  $("average").textContent = avg.toFixed(1)+"%";
+  $("attendanceAverage").textContent = att.toFixed(1)+"%";
+}
+
+window.openProfile = key => {
+
+  const roll = decodeURIComponent(key);
+  const s = students.find(x => x.roll === roll);
+
+  if(!s) return;
+
+  $("profile").style.display = "block";
+  $("profilePhoto").src = photoFor(s);
+  $("profileName").textContent = s.name;
+  $("profileRoll").textContent = "Roll Number: "+s.roll;
+
+  $("profileSummary").textContent =
+    `Total ${s.total}/300 · ${s.percentage}% · Grade ${s.grade}`;
+
+  $("marksBars").innerHTML = s.marks.map((m,i) => `
+    <div class="barcol">
+      <span class="barval">${m}</span>
+      <div class="bar" style="height:${Math.max(2,m)}%"></div>
+    </div>
+  `).join("");
+
+  $("attendanceDonut").style.background =
+    `conic-gradient(var(--cyan) ${s.attendance*3.6}deg,#e9eef7 0deg)`;
+
+  $("attendanceText").textContent =
+    s.attendance.toFixed(1)+"%";
+
+  $("attendanceLegend").innerHTML = `
+    Present: <b>${s.present}</b> days<br>
+    Absent: <b>${s.working-s.present}</b> days<br>
+    Working: <b>${s.working}</b> days
+  `;
+
+  $("profile").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+};
+
+$("closeProfile").onclick = () => {
+  $("profile").style.display = "none";
+};
+
+window.editStudent = key => {
+
+  const s = students.find(x =>
+    x.roll === decodeURIComponent(key)
+  );
+
+  if(!s) return;
+
+  editingRoll = s.roll;
+
+  $("roll").value = s.roll;
+  $("name").value = s.name;
+
+  ["m1","m2","m3"].forEach((id,i) => {
+    $(id).value = s.marks[i];
+  });
+
+  $("working").value = s.working;
+  $("present").value = s.present;
+
+  $("formTitle").textContent = "Edit Student";
+  $("submitBtn").textContent = "Save Changes";
+  $("cancelEdit").style.display = "block";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+};
+
+window.deleteStudent = key => {
+
+  const roll = decodeURIComponent(key);
+
+  if(!confirm("Delete this student record?")) return;
+
+  students = students.filter(s => s.roll !== roll);
+
+  save();
+  resetForm();
+
+  $("profile").style.display = "none";
+
+  render();
+};
+
+render();
 
 </script>
 
